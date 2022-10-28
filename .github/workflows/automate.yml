@@ -6,13 +6,13 @@ on:
   pull_request:
     branches: [ master ]
   schedule:
-    - cron:  '*/10 1 * * 1'
-    - cron:  '*/10 2 * * 2'
-    - cron:  '*/10 3 * * 3'
-    - cron:  '*/10 4 * * 4'
-    - cron:  '*/10 0 * * 5'
-    - cron:  '*/10 3 * * 6'
-    - cron:  '*/10 1 * * 0'
+    - cron:  '0 1 * * 1'
+    - cron:  '0 2 * * 2'
+    - cron:  '0 3 * * 3'
+    - cron:  '0 4 * * 4'
+    - cron:  '0 0 * * 5'
+    - cron:  '0 3 * * 6'
+    - cron:  '0 1 * * 0'
   workflow_dispatch:
 
 jobs:
@@ -22,17 +22,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     
-      - name: Roll dice
-        run: echo "PROCEED=$((RANDOM%2))" >> $GITHUB_ENV && echo $GITHUB_ENV
-        shell: bash
-        
-      - if: ${{ env.PROCEED == '0' }}
-        name: Cancelling
-        uses: andymckay/cancel-action@0.2
-
-      - if: ${{ env.PROCEED == '0' }}
-        name: Waiting for cancellation
-        run: sleep 60
+      - name: Sleepy
+        run: sleep ${RANDOM:0:2}m
   
       - name: Check out code
         uses: actions/checkout@v2
